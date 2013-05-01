@@ -1,17 +1,14 @@
-rails_app Cookbook
+chef-rails-app
 =============
-TODO: Enter the cookbook description here.
-
-e.g.
-This cookbook makes your favorite breakfast sandwhich.
+Creates Rails application files and databases
 
 Requirements
 ------------
-TODO: List your cookbook requirements. Be sure to include any requirements this cookbook has on platforms, libraries, other cookbooks, packages, operating systems, etc.
+#### cookbooks
+- `build-essential`
 
-e.g.
-#### packages
-- `toaster` - rails_app needs toaster to brown your bagel.
+TODO
+=====
 
 Attributes
 ----------

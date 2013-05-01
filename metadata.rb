@@ -1,4 +1,4 @@
-name             'rails_app'
+name             'rails-app'
 maintainer       'Rawnet'
 maintainer_email 'tbeynon@rawnet.com'
 license          'All rights reserved'
