@@ -4,5 +4,5 @@
 # Recipe:: default
 #
 
-include_recipe "rails_app::files"
-include_recipe "rails_app::databases"
+include_recipe "rails-app::files"
+include_recipe "rails-app::databases"
