@@ -65,6 +65,11 @@ rails_apps.each do |app_name|
                   "rails_user"       => rails_user
                 })
     end
+    
+    # unicorns should run at boot
+    service "#{app_name}_#{environment}_unicorn" do
+      action :enable
+    end
 
     # Create Nginx config
     template "/etc/nginx/sites-available/#{app_name}_#{environment}.conf" do
