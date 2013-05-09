@@ -73,6 +73,8 @@ rails_apps.each do |app_name|
     end
 
     # Create Nginx config
+    domains = config['domains']
+    domains + config['local_domains'] unless config['local_domains'].nil?
     template "/etc/nginx/sites-available/#{app_name}_#{environment}.conf" do
       source "nginx.conf.erb"
       owner admin_user
@@ -82,7 +84,7 @@ rails_apps.each do |app_name|
                   "environment_root" => environment_root,
                   "app_name"         => app_name,
                   "environment"      => environment,
-                  "domains"          => config['domains']
+                  "domains"          => domains
                 })
     end
 
@@ -90,6 +92,13 @@ rails_apps.each do |app_name|
       to "/etc/nginx/sites-available/#{app_name}_#{environment}.conf"
       notifies :reload, "service[nginx]", :delayed
     end
+    
+    config['local_domains'].each do |local|
+      hostsfile_entry '127.0.0.1' do
+        hostname  local
+        action    :append
+      end
+    end unless config['local_domains'].nil?
 
     template "/etc/monit/conf.d/#{app_name}_#{environment}.conf" do
       source "monit.conf.erb"
