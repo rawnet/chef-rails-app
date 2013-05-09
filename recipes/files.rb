@@ -1,14 +1,18 @@
 
-rails_apps = node["rails_apps"]
-admin_user = node["admin_user"]
-rails_user = node["rails_app_user"]
+rails_apps = node["rails_apps"]["apps"]
+admin_user = node["rails_apps"]["admin_user"]
+rails_user = node["rails_apps"]["rails_user"]
 
-rails_apps.each do |app_name|
-
+rails_apps.each do |app_data|
+  
+  app_name = app_data["name"]
+  environments = app_data["environments"]
+  
   app = data_bag_item('rails_apps', app_name)
   app_root = "/home/#{rails_user}/apps/#{app_name}"
 
-  app['environments'].each do |environment, config|
+  environments.each do |environment|
+    config = app["environments"][environment]
     environment_root = app_root + "/#{environment}"
 
     # Create the environment directory

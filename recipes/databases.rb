@@ -1,7 +1,7 @@
 
 include_recipe "database::mysql"
 
-rails_apps = node["rails_apps"]
+rails_apps = node["rails_app"]["apps"]
 
 mysql_connection_info = {
   :host => "localhost",
@@ -9,12 +9,16 @@ mysql_connection_info = {
   :password => node['mysql']['server_root_password']
 }
 
-rails_apps.each do |app_name|
+rails_apps.each do |app_data|
+  
+  app_name = app_data["name"]
+  environments = app_data["environments"]
 
   app = data_bag_item('rails_apps', app_name)
 
-  app['environments'].each do |environment, config|
-
+  environments.each do |environment|
+    
+    config = app["environments"][environment]
     db = config['database']
 
     mysql_database db['database'] do
