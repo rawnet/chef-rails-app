@@ -1,7 +1,7 @@
 
-rails_apps = node["rails_apps"]["apps"]
-admin_user = node["rails_apps"]["admin_user"]
-rails_user = node["rails_apps"]["rails_user"]
+rails_apps = node["rails_app"]["apps"]
+admin_user = node["rails_app"]["admin_user"]
+rails_user = node["rails_app"]["rails_user"]
 
 rails_apps.each do |app_data|
   
