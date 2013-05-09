@@ -1,7 +1,7 @@
 
 include_recipe "database::mysql"
 
-rails_apps = data_bag('rails_apps')
+rails_apps = node["rails_apps"]
 
 mysql_connection_info = {
   :host => "localhost",

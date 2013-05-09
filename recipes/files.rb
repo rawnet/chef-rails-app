@@ -1,5 +1,5 @@
 
-rails_apps = data_bag('rails_apps')
+rails_apps = node["rails_apps"]
 admin_user = node["admin_user"]
 rails_user = node["rails_app_user"]
 
