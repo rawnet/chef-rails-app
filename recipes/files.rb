@@ -69,7 +69,7 @@ rails_apps.each do |app_name|
     # unicorns should run at boot
     service "#{app_name}_#{environment}_unicorn" do
       supports :status => true, :restart => true, :reload => true
-      action [ :enable, :start ]
+      action :enable
     end
 
     # Create Nginx config
