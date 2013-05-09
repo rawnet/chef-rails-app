@@ -74,7 +74,7 @@ rails_apps.each do |app_name|
 
     # Create Nginx config
     domains = config['domains']
-    domains + config['local_domains'] unless config['local_domains'].nil?
+    domains += config['local_domains'] unless config['local_domains'].nil?
     template "/etc/nginx/sites-available/#{app_name}_#{environment}.conf" do
       source "nginx.conf.erb"
       owner admin_user
