@@ -1,4 +1,4 @@
-
+include_recipe "mysql::server"
 include_recipe "database::mysql"
 
 rails_apps = node["rails_app"]["apps"]
