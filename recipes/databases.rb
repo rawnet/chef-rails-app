@@ -9,10 +9,10 @@ mysql_connection_info = {
   :password => node['mysql']['server_root_password']
 }
 
-rails_apps.each do |app_data|
+rails_apps.each do |app_config|
   
-  app_name = app_data["name"]
-  environments = app_data["environments"]
+  app_name = app_config["name"]
+  environments = app_config["environments"]
 
   app = data_bag_item('rails_apps', app_name)
 
