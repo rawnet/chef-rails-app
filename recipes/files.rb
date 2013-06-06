@@ -9,7 +9,7 @@ rails_apps.each_pair do |app_name, app_config|
   
   app = data_bag_item('rails_apps', app_name)
   env = app[node.chef_environment]
-  raise env.inspect
+  raise node.chef_environment.inspect
   app_root = "/home/#{rails_user}/apps/#{app_name}"
 
   environments.each do |environment|
