@@ -6,7 +6,7 @@ upstream <%= @app_name %>_<%= @environment %>_unicorn {
 }
 
 server  {
-  listen 80;
+  listen 80<%= " default_server" if @default_vhost %>;
   server_name <%= @domains.join(" ") %>;
 
   root <%= @environment_root %>/current/public;

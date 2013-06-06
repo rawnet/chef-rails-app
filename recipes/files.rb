@@ -87,7 +87,8 @@ rails_apps.each_pair do |app_name, app_config|
                   "environment_root" => environment_root,
                   "app_name"         => app_name,
                   "environment"      => environment,
-                  "domains"          => domains
+                  "domains"          => domains,
+                  "default_vhost"    => config['default_vhost'] || false
                 })
     end
 
