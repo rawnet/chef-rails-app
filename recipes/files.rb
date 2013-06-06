@@ -8,11 +8,18 @@ rails_apps.each_pair do |app_name, app_config|
   environments = app_config["environments"]
   
   app = data_bag_item('rails_apps', app_name)
+  env = app[node.chef_environment]
   app_root = "/home/#{rails_user}/apps/#{app_name}"
 
   environments.each do |environment|
     config = app["environments"][environment]
     environment_root = app_root + "/#{environment}"
+    
+    if !env.nil? && env["environments"] && env["environments"][environment]
+      env_config = env["environments"][environment]
+    else
+      env_config = {}
+    end
 
     # Create the environment directory
     directory environment_root do
@@ -30,6 +37,12 @@ rails_apps.each_pair do |app_name, app_config|
         recursive true
       end
     end
+    
+    if env_config.has_key?("database")
+      db_config = config['database'].merge(env_config['database'])
+    else
+      db_config = config['database']
+    end
 
     # Create database.yml
     template "#{environment_root}/shared/config/database.yml" do
@@ -40,7 +53,7 @@ rails_apps.each_pair do |app_name, app_config|
       variables({
                   "app_name"    => app_name,
                   "environment" => environment,
-                  "database"    => config['database']
+                  "database"    => db_config
                 })
     end
 
