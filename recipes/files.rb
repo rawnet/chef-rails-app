@@ -8,19 +8,15 @@ rails_apps.each_pair do |app_name, app_config|
   environments = app_config["environments"]
   
   app = data_bag_item('rails_apps', app_name)
-  env = app[node.chef_environment]
-  raise node.chef_environment.inspect
   app_root = "/home/#{rails_user}/apps/#{app_name}"
 
   environments.each do |environment|
-    config = app["environments"][environment]
-    environment_root = app_root + "/#{environment}"
     
-    if !env.nil? && env["environments"] && env["environments"][environment]
-      env_config = env["environments"][environment]
-    else
-      env_config = {}
-    end
+    node_config = {}
+    environment, node_config = environment.first if environment.is_a?(Hash)
+    config = app["environments"][environment]
+    
+    environment_root = app_root + "/#{environment}"
 
     # Create the environment directory
     directory environment_root do
@@ -39,8 +35,8 @@ rails_apps.each_pair do |app_name, app_config|
       end
     end
     
-    if env_config.has_key?("database")
-      db_config = config['database'].merge(env_config['database'])
+    if node_config.has_key?("database")
+      db_config = config['database'].merge(node_config['database'])
     else
       db_config = config['database']
     end

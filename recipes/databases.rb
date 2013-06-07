@@ -17,24 +17,33 @@ rails_apps.each_pair do |app_name, app_config|
 
   environments.each do |environment|
     
+    node_config = {}
+    environment, node_config = environment.first if environment.is_a?(Hash)
+    
     config = app["environments"][environment]
-    db = config['database']
+    
+    if node_config.has_key?("database")
+      db_config = config['database'].merge(node_config['database'])
+    else
+      db_config = config['database']
+    end
+    
 
-    mysql_database db['database'] do
+    mysql_database db_config['database'] do
       connection mysql_connection_info
       action :create
     end
 
-    mysql_database_user db['user'] do
+    mysql_database_user db_config['user'] do
       connection mysql_connection_info
       host '%'
-      password db['password']
+      password db_config['password']
       action :create
     end
 
-    mysql_database_user db['user'] do
+    mysql_database_user db_config['user'] do
       connection mysql_connection_info
-      database_name db['database']
+      database_name db_config['database']
       action :grant
     end
 
