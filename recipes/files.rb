@@ -75,6 +75,7 @@ rails_apps.each_pair do |app_name, app_config|
       variables({
                   "environment_root" => environment_root,
                   "environment"      => environment,
+                  "unicorn_bin"      => config['unicorn_bin'] || 'unicorn',
                   "rails_user"       => rails_user
                 })
     end
