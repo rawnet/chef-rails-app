@@ -41,12 +41,13 @@ rails_apps.each_pair do |app_name, app_config|
         password db_config['password']
         action :create
       end
-    end
-
-    mysql_database_user db_config['user'] do
-      connection mysql_connection_info
-      database_name db_config['database']
-      action :grant
+      
+      mysql_database_user db_config['user'] do
+        connection mysql_connection_info
+        host mysql_host
+        database_name db_config['database']
+        action :grant
+      end
     end
 
   end
