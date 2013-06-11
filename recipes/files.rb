@@ -130,6 +130,13 @@ rails_apps.each_pair do |app_name, app_config|
       notifies :restart, "service[monit]", :delayed
     end
 
+    # logrotate
+    template "/etc/logrotate.d/#{app_name}_#{environment}" do
+      source "logrotate.conf.erb"
+      owner admin_user
+      group admin_user
+      mode 00644
+      variables({ "environment_root" => environment_root, })
+    end
   end
-
 end
