@@ -115,21 +115,6 @@ rails_apps.each_pair do |app_name, app_config|
       end
     end unless config['local_domains'].nil?
 
-    template "/etc/monit/conf.d/#{app_name}_#{environment}.conf" do
-      source "monit.conf.erb"
-      owner admin_user
-      group admin_user
-      mode 00644
-      variables({
-                  "environment_root" => environment_root,
-                  "app_name"         => app_name,
-                  "environment"      => environment,
-                  "unicorn_workers"  => config['unicorn_workers']
-                })
-
-      notifies :restart, "service[monit]", :delayed
-    end
-
     # logrotate
     template "/etc/logrotate.d/#{app_name}_#{environment}" do
       source "logrotate.conf.erb"

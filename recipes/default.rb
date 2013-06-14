@@ -5,4 +5,5 @@
 #
 
 include_recipe "rails-app::files"
+include_recipe "rails-app::monit"
 include_recipe "rails-app::databases"
