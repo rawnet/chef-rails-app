@@ -5,13 +5,13 @@ check process <%= @app_name %>_<%= @environment %>_unicorn_master with pidfile <
   start program "/etc/init.d/<%= @app_name %>_<%= @environment %>_unicorn start"
   stop program "/etc/init.d/<%= @app_name %>_<%= @environment %>_unicorn stop"
   if 5 restarts within 5 cycles then timeout
-	<% if config["local_domains"].any? %>
+	<% if @config["local_domains"].any? %>
 	if failed url http://<%= config["local_domains"].first %>/
 	    with timeout 10 seconds for 2 cycles
 	    then restart
 	<% end %>
 
-<% config['unicorn_workers'].times do |i| %>
+<% @config['unicorn_workers'].times do |i| %>
 check process <%= @app_name %>_<%= @environment %>_unicorn_worker_<%= i %> with pidfile <%= @environment_root %>/shared/pids/unicorn.<%= i %>.pid
   start program = "/bin/true"
   stop program = "/etc/init.d/<%= @app_name %>_<%= @environment %>_unicorn kill_worker <%= i %>"
