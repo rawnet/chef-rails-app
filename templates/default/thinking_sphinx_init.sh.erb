@@ -16,35 +16,37 @@ set -u
 
 cd $APP_ROOT || exit 1
 
+<% source_rbenv = "PATH=/home/#{@rails_user}/.rbenv/shims:/home/#{@rails_user}/.rbenv/bin:$PATH" %>
+
 case "$1" in
   start)    
     echo "Starting Thinking Sphinx"
     cd $APP_ROOT                 
-    sudo -u $USER RAILS_ENV=$RAILS_ENV bundle exec rake thinking_sphinx:start
+    sudo -u $USER <%= source_rbenv %> RAILS_ENV=$RAILS_ENV bundle exec rake thinking_sphinx:start
     echo                                                         
     ;;                                                           
   stop)                                                          
     echo "Stopping Thinking Sphinx"                                
     cd $APP_ROOT                                                 
-    sudo -u $USER RAILS_ENV=$RAILS_ENV bundle exec rake thinking_sphinx:stop 
+    sudo -u $USER <%= source_rbenv %> RAILS_ENV=$RAILS_ENV bundle exec rake thinking_sphinx:stop 
     echo                                                         
     ;;                                                           
   rebuild)
     echo "re-Building (Stop/Index/Start) Thinking Sphinx"
     cd $APP_ROOT
-    sudo -u $USER RAILS_ENV=$RAILS_ENV bundle exec rake thinking_sphinx:rebuild
+    sudo -u $USER <%= source_rbenv %> RAILS_ENV=$RAILS_ENV bundle exec rake thinking_sphinx:rebuild
     echo
     ;;
   restart)
     echo "re-Starting Thinking Sphinx"
     cd $APP_ROOT
-    sudo -u $USER RAILS_ENV=$RAILS_ENV bundle exec rake thinking_sphinx:restart
+    sudo -u $USER <%= source_rbenv %> RAILS_ENV=$RAILS_ENV bundle exec rake thinking_sphinx:restart
     echo
     ;;
   delayed_delta)
     echo "Process stored delta index requests"
     cd $APP_ROOT
-    sudo -u $USER RAILS_ENV=$RAILS_ENV bundle exec rake thinking_sphinx:delayed_delta
+    sudo -u $USER <%= source_rbenv %> RAILS_ENV=$RAILS_ENV bundle exec rake thinking_sphinx:delayed_delta
     echo
     ;;
   *)
