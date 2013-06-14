@@ -27,7 +27,7 @@ rails_apps.each_pair do |app_name, app_config|
                   "environment_root" => environment_root,
                   "app_name"         => app_name,
                   "environment"      => environment,
-                  "unicorn_workers"  => config['unicorn_workers']
+                  "config"           => config
                 })
 
       notifies :restart, "service[monit]", :delayed
