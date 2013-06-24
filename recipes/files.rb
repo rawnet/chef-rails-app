@@ -1,4 +1,3 @@
-
 rails_apps = node["rails_app"]["apps"]
 admin_user = node["rails_app"]["admin_user"]
 rails_user = node["rails_app"]["rails_user"]
@@ -87,6 +86,7 @@ rails_apps.each_pair do |app_name, app_config|
     end
 
     # Create Nginx config
+    http_basic = config["http_basic_auth"]
     domains = config['domains']
     domains += config['local_domains'] unless config['local_domains'].nil?
     template "/etc/nginx/sites-available/#{app_name}_#{environment}.conf" do
@@ -99,15 +99,30 @@ rails_apps.each_pair do |app_name, app_config|
                   "app_name"         => app_name,
                   "environment"      => environment,
                   "domains"          => domains,
-                  "default_vhost"    => config['default_vhost'] || false
+                  "default_vhost"    => !! config['default_vhost'],
+                  "http_basic_auth"  => !! http_basic
                 })
+    end
+
+    if http_basic
+      template "#{environment_root}/shared/config/http_basic_auth.conf" do
+        source "http_basic_auth.conf.erb"
+        owner rails_user
+        group rails_user
+        mode 00644
+
+        variables({
+          "username" => http_basic["username"],
+          "password" => http_basic["password"]
+        })
+      end
     end
 
     link "/etc/nginx/sites-enabled/#{app_name}_#{environment}.conf" do
       to "/etc/nginx/sites-available/#{app_name}_#{environment}.conf"
       notifies :reload, "service[nginx]", :delayed
     end
-    
+
     config['local_domains'].each do |local|
       hostsfile_entry '127.0.0.1' do
         hostname  local
@@ -121,7 +136,7 @@ rails_apps.each_pair do |app_name, app_config|
       owner admin_user
       group admin_user
       mode 00644
-      variables({ "environment_root" => environment_root, })
+      variables({ "environment_root" => environment_root })
     end
   end
 end
