@@ -99,7 +99,7 @@ rails_apps.each_pair do |app_name, app_config|
                   "app_name"         => app_name,
                   "environment"      => environment,
                   "domains"          => domains,
-                  "default_vhost"    => !! config['default_vhost'],
+                  "config"           => config['nginx'] || {},
                   "http_basic_auth"  => !! http_basic
                 })
     end

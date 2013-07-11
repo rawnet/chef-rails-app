@@ -6,10 +6,16 @@ upstream <%= @app_name %>_<%= @environment %>_unicorn {
 }
 
 server  {
-  listen 80<%= " default_server" if @default_vhost %>;
+  listen 80<%= " default_server" if @config['default_vhost'] %>;
   server_name <%= @domains.join(" ") %>;
 
   root <%= @environment_root %>/current/public;
+	
+	<% if @config["force_www"] %>
+	if ($host !~* ^www\.){
+		rewrite ^(.*)$ $scheme://www.$host$1;
+	}
+	<% end %>
 
   location / {
     proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
