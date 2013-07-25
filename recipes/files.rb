@@ -115,6 +115,8 @@ rails_apps.each_pair do |app_name, app_config|
           "username" => http_basic["username"],
           "password" => http_basic["password"]
         })
+
+        notifies :reload, "service[nginx]", :delayed
       end
     end
 
