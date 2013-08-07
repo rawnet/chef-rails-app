@@ -102,6 +102,8 @@ rails_apps.each_pair do |app_name, app_config|
                   "config"           => config['nginx'] || {},
                   "http_basic_auth"  => !! http_basic
                 })
+
+      notifies :reload, "service[nginx]", :delayed
     end
 
     if http_basic
