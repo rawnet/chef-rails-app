@@ -70,7 +70,7 @@ rails_apps.each_pair do |app_name, app_config|
                   "unicorn_workers"  => config['unicorn_workers'],
                   "unicorn_timeout"  => config['unicorn_timeout']
                 })
-      notifies :reload, "service[#{app_name}_#{environment}_unicorn]", :delayed
+      notifies :restart, "service[#{app_name}_#{environment}_unicorn]", :delayed
     end
 
     # Create unicorn init script
