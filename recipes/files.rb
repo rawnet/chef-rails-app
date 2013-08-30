@@ -61,7 +61,8 @@ rails_apps.each_pair do |app_name, app_config|
       mode 00755
       variables({
                   "environment_root" => environment_root,
-                  "unicorn_workers"  => config['unicorn_workers']
+                  "unicorn_workers"  => config['unicorn_workers'],
+                  "unicorn_timeout"  => config['unicorn_timeout']
                 })
     end
 

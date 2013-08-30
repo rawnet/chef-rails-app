@@ -7,7 +7,7 @@ listen "<%= @environment_root %>/shared/sockets/unicorn.sock", :backlog => 100
 working_directory "<%= @environment_root %>/current"
 
 # What the timeout for killing busy workers is, in seconds
-timeout 60
+timeout <%= @unicorn_timeout || 60 %>
 
 # Whether the app should be pre-loaded
 preload_app true
