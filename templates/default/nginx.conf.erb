@@ -26,11 +26,11 @@ server  {
     proxy_set_header Host $http_host;
     proxy_redirect off;
 
-		<% if @config["proxy_timeout"] %>
-		proxy_connect_timeout  <%= @config["proxy_timeout"] %>;
-		proxy_send_timeout  <%= @config["proxy_timeout"] %>;
-		proxy_read_timeout  <%= @config["proxy_timeout"] %>;
-		<% end %>
+    <% if @config["proxy_timeout"] %>
+    proxy_connect_timeout  <%= @config["proxy_timeout"] %>;
+    proxy_send_timeout  <%= @config["proxy_timeout"] %>;
+    proxy_read_timeout  <%= @config["proxy_timeout"] %>;
+    <% end %>
 
     <% if @http_basic_auth %>
       auth_basic "Restricted";
