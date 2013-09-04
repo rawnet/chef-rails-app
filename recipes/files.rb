@@ -53,12 +53,6 @@ rails_apps.each_pair do |app_name, app_config|
                 })
     end
 
-    # unicorns should run at boot
-    service "#{app_name}_#{environment}_unicorn" do
-      supports :status => true, :restart => true, :reload => true
-      action :enable
-    end
-
     # Create unicorn config
     template "#{environment_root}/shared/config/unicorn.rb" do
       source "unicorn_config.rb.erb"
@@ -85,6 +79,12 @@ rails_apps.each_pair do |app_name, app_config|
                   "unicorn_bin"      => config['unicorn_bin'] || 'unicorn',
                   "rails_user"       => rails_user
                 })
+    end
+    
+    # unicorns should run at boot
+    service "#{app_name}_#{environment}_unicorn" do
+      supports :status => true, :restart => true, :reload => true
+      action :enable
     end
 
     # Create Nginx config
