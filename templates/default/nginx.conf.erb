@@ -24,9 +24,19 @@ server  {
   location / {
     proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
     proxy_set_header Host $http_host;
-		<% if @config["forward_protocol"] %>
+
+  <% if @load_balancer && @load_balancer["forward_scheme"] %>
+    <% if @load_balancer["custom_ssl_header"] %>
+    set $lb_scheme http;
+    if ($http_<%= @load_balancer["custom_ssl_header"].downcase.gsub("-", "_") %> = "<%= @load_balancer["custom_ssl_value"]%>") { 
+      set $lb_scheme https; 
+    }
+    proxy_set_header X-Forwarded-Proto $lb_scheme;
+    <% else %>		
     proxy_set_header X-Forwarded-Proto $scheme;
 		<% end %>
+	<% end %>
+		
     proxy_redirect off;
 
     <% if @config["proxy_timeout"] %>

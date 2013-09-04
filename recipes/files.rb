@@ -91,7 +91,6 @@ rails_apps.each_pair do |app_name, app_config|
     end
 
     # Create Nginx config
-    http_basic = config["http_basic_auth"]
     domains = config['domains']
     domains += config['local_domains'] unless config['local_domains'].nil?
     template "/etc/nginx/sites-available/#{app_name}_#{environment}.conf" do
@@ -105,13 +104,14 @@ rails_apps.each_pair do |app_name, app_config|
                   "environment"      => environment,
                   "domains"          => domains,
                   "config"           => config['nginx'] || {},
-                  "http_basic_auth"  => !! http_basic
+                  "http_basic_auth"  => !! config["http_basic_auth"],
+                  "load_balancer"    => !! config["behind_load_balancer"]
                 })
 
       notifies :reload, "service[nginx]", :delayed
     end
 
-    if http_basic
+    if config["http_basic_auth"]
       template "#{environment_root}/shared/config/http_basic_auth.conf" do
         source "http_basic_auth.conf.erb"
         owner rails_user
@@ -119,8 +119,8 @@ rails_apps.each_pair do |app_name, app_config|
         mode 00644
 
         variables({
-          "username" => http_basic["username"],
-          "password" => http_basic["password"]
+          "username" => config["http_basic_auth"]["username"],
+          "password" => config["http_basic_auth"]["password"]
         })
 
         notifies :reload, "service[nginx]", :delayed
