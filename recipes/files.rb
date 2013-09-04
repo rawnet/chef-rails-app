@@ -52,6 +52,12 @@ rails_apps.each_pair do |app_name, app_config|
                   "database"    => db_config
                 })
     end
+    
+    # unicorns should run at boot
+    service "#{app_name}_#{environment}_unicorn" do
+      supports :status => true, :restart => true, :reload => true
+      action :enable
+    end
 
     # Create unicorn config
     template "#{environment_root}/shared/config/unicorn.rb" do
@@ -64,7 +70,10 @@ rails_apps.each_pair do |app_name, app_config|
                   "unicorn_workers"  => config['unicorn_workers'],
                   "unicorn_timeout"  => config['unicorn_timeout']
                 })
-      notifies :restart, "service[#{app_name}_#{environment}_unicorn]", :delayed
+                
+      if File.directory? "#{environment_root}/current"          
+        notifies :restart, "service[#{app_name}_#{environment}_unicorn]", :delayed
+      end
     end
 
     # Create unicorn init script
@@ -79,14 +88,6 @@ rails_apps.each_pair do |app_name, app_config|
                   "unicorn_bin"      => config['unicorn_bin'] || 'unicorn',
                   "rails_user"       => rails_user
                 })
-    end
-    
-    # unicorns should run at boot
-    if File.directory? "#{environment_root}/current"
-      service "#{app_name}_#{environment}_unicorn" do
-        supports :status => true, :restart => true, :reload => true
-        action :enable
-      end
     end
 
     # Create Nginx config
