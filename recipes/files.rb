@@ -105,7 +105,7 @@ rails_apps.each_pair do |app_name, app_config|
                   "domains"          => domains,
                   "config"           => config['nginx'] || {},
                   "http_basic_auth"  => !! config["http_basic_auth"],
-                  "load_balancer"    => !! config["behind_load_balancer"]
+                  "load_balancer"    => config["behind_load_balancer"]
                 })
 
       notifies :reload, "service[nginx]", :delayed
