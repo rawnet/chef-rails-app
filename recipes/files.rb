@@ -82,9 +82,11 @@ rails_apps.each_pair do |app_name, app_config|
     end
     
     # unicorns should run at boot
-    service "#{app_name}_#{environment}_unicorn" do
-      supports :status => true, :restart => true, :reload => true
-      action :enable
+    if File.directory? "#{environment_root}/current"
+      service "#{app_name}_#{environment}_unicorn" do
+        supports :status => true, :restart => true, :reload => true
+        action :enable
+      end
     end
 
     # Create Nginx config
