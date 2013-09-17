@@ -83,11 +83,12 @@ rails_apps.each_pair do |app_name, app_config|
       group "root"
       mode 00755
       variables({
-                  "environment_root" => environment_root,
-                  "environment"      => environment,
-                  "unicorn_bin"      => config['unicorn_bin'] || 'unicorn',
-                  "rails_user"       => rails_user
-                })
+        "environment_root"          => environment_root,
+        "environment"               => environment,
+        "unicorn_bin"               => config['unicorn_bin'] || 'unicorn',
+        "rails_user"                => rails_user,
+        "environment_variable_name" => config['environment_variable_name'] || 'RAILS_ENV'
+      })
     end
 
     # Create Nginx config
