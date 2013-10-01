@@ -21,6 +21,12 @@ server  {
     client_max_body_size <%= @config["client_max_body_size"] %>;
   <% end %>
 
+  <% if @config["server_includes"] %>
+    <% @config["server_includes"].each do |file| %>
+      include <%= file %>;
+    <% end %>
+  <% end %>
+
   location / {
     proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
     proxy_set_header Host $http_host;
@@ -48,6 +54,12 @@ server  {
     <% if @http_basic_auth %>
       auth_basic "Restricted";
       auth_basic_user_file <%= @environment_root %>/shared/config/http_basic_auth.conf;
+    <% end %>
+
+    <% if @config["root_location_includes"] %>
+      <% @config["root_location_includes"].each do |file| %>
+        include <%= file %>;
+      <% end %>
     <% end %>
 
     if (!-f $request_filename) {
