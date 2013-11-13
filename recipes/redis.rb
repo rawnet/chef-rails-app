@@ -41,5 +41,13 @@ rails_apps.each_pair do |app_name, app_config|
       variables(app_name: app_name, environment_root: environment_root, port: environment_config['redis']['port'], environment: environment)
       notifies :restart, 'service[monit]', :delayed
     end
+
+    template File.join(config_dir, 'redis.yml') do
+      source 'redis.yml.erb'
+      owner rails_user
+      group rails_user
+      mode 00755
+      variables(environment: environment, config: environment_config['redis'])
+    end
   end
 end
