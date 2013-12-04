@@ -11,6 +11,8 @@ rails_apps.each_pair do |app_name, app_config|
     config_dir = File.join(environment_root, 'shared', 'config')
     environment_config = app_data_bag['environments'][environment]
 
+    break unless environment_config['redis']
+
     template File.join('/', 'etc', 'init.d', "#{app_name}_#{environment}_redis") do
       source 'redis_init.sh.erb'
       owner admin_user

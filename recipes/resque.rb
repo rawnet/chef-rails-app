@@ -10,6 +10,8 @@ rails_apps.each_pair do |app_name, app_config|
     environment_root = File.join(app_root, environment)
     environment_config = app_data_bag['environments'][environment]
 
+    break unless environment_config['resque']
+
     template File.join('/', 'etc', 'init.d', "#{app_name}_#{environment}_resque") do
       source 'resque_init.sh.erb'
       owner admin_user
