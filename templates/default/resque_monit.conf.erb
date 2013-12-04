@@ -5,5 +5,5 @@
 check process <%= @app_name %>_<%= @environment %>_resque_<%= i %> with pidfile <%= @environment_root %>/shared/pids/resque.<%= i %>.pid
   start program = "/etc/init.d/<%= @app_name %>_<%= @environment %>_resque start_worker <%= i %>"
   stop program = "/etc/init.d/<%= @app_name%>_<%= @environment %>_resque stop_worker <%= i %>"
-  if totalmem is greater than 300 MB for 10 cycles then restart
+  if totalmem is greater than <%= @max_memory %> MB for 10 cycles then restart
 <% end %>
