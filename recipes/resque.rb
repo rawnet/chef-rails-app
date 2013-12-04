@@ -34,7 +34,7 @@ rails_apps.each_pair do |app_name, app_config|
         environment_root: environment_root, 
         environment: environment, 
         resque_workers: environment_config['resque']['worker_processes'], 
-        max_memory: environment_config['resque']['max_memory']) || 300
+        max_memory: (environment_config['resque']['max_memory']) || 300)
       notifies :restart, 'service[monit]', :delayed
     end
   end
