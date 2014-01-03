@@ -6,23 +6,23 @@ upstream <%= @app_name %>_<%= @environment %>_unicorn {
 }
 
 server  {
-  listen 80<%= " default_server" if @config['default_vhost'] %>;
-  server_name <%= @domains.join(" ") %>;
+  listen 80<%= ' default_server' if @config['default_vhost'] %>;
+  server_name <%= @domains.join(' ') %>;
 
   root <%= @environment_root %>/current/public;
-	
-	<% if @config["force_www"] %>
-	if ($host !~* ^www\.){
-		rewrite ^(.*)$ $scheme://www.$host$1;
-	}
-	<% end %>
 
-  <% if @config["client_max_body_size"] %>
-    client_max_body_size <%= @config["client_max_body_size"] %>;
+  <% if @config['force_www'] %>
+  if ($host !~* ^www\.){
+    rewrite ^(.*)$ $scheme://www.$host$1;
+  }
   <% end %>
 
-  <% if @config["server_includes"] %>
-    <% @config["server_includes"].each do |file| %>
+  <% if @config['client_max_body_size'] %>
+  client_max_body_size <%= @config['client_max_body_size'] %>;
+  <% end %>
+
+  <% if @config['server_includes'] %>
+    <% @config['server_includes'].each do |file| %>
       include <%= file %>;
     <% end %>
   <% end %>
@@ -34,15 +34,15 @@ server  {
   <% if @load_balancer && @load_balancer["forward_scheme"] %>
     <% if @load_balancer["custom_ssl_header"] %>
     set $lb_scheme http;
-    if ($http_<%= @load_balancer["custom_ssl_header"].downcase.gsub("-", "_") %> = "<%= @load_balancer["custom_ssl_value"]%>") { 
-      set $lb_scheme https; 
+    if ($http_<%= @load_balancer["custom_ssl_header"].downcase.gsub("-", "_") %> = "<%= @load_balancer["custom_ssl_value"]%>") {
+      set $lb_scheme https;
     }
     proxy_set_header X-Forwarded-Proto $lb_scheme;
-    <% else %>		
+    <% else %>
     proxy_set_header X-Forwarded-Proto $scheme;
-		<% end %>
-	<% end %>
-		
+    <% end %>
+  <% end %>
+
     proxy_redirect off;
 
     <% if @config["proxy_timeout"] %>

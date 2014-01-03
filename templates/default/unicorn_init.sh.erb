@@ -18,8 +18,8 @@ old_pid="$PID.oldbin"
 cd $APP_ROOT || exit 1
 
 start_unicorn() {
-  <% source_rbenv = "PATH=/home/#{@rails_user}/.rbenv/shims:/home/#{@rails_user}/.rbenv/bin:$PATH" %>
-  su -l <%= @rails_user %> -c 'cd <%= @environment_root %>/current && <%= source_rbenv %> <%= @environment_variable_name %>=<%= @environment %> bundle exec <%= @unicorn_bin %> -D -c <%= @environment_root %>/shared/config/unicorn.rb'
+  <% source_rbenv = "PATH=/home/#{@app_user}/.rbenv/shims:/home/#{@app_user}/.rbenv/bin:$PATH" %>
+  su -l <%= @app_user %> -c 'cd <%= @environment_root %>/current && <%= source_rbenv %> <%= @environment_variable_name %>=<%= @environment %> bundle exec <%= @unicorn_bin %> -D -c <%= @environment_root %>/shared/config/unicorn.rb'
 }
 
 sig () {
