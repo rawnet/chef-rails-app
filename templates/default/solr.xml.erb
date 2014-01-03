@@ -39,10 +39,10 @@
     If 'null' (or absent), cores will not be manageable via request handler
   -->
   <cores adminPath="/admin/cores">
-    <% @rails_apps.each_pair do |app_name, app_config| %>
+    <% @rails_apps.each do |name, app_config| %>
       <% app_config['environments'].each do |environment| %>
-        <% solr_dir = File.join('/', 'home', @rails_user, 'apps', app_name, environment, 'shared', 'solr') %>
-        <core name="<%= app_name %>_<%= environment %>" instanceDir="<%= solr_dir %>/config" dataDir="<%= solr_dir %>/data" />
+        <% solr_dir = File.join('/', 'home', @rails_user, 'apps', name, environment, 'shared', 'solr') %>
+        <core name="<%= name %>_<%= environment %>" instanceDir="<%= solr_dir %>/config" dataDir="<%= solr_dir %>/data" />
       <% end %>
     <% end %>
   </cores>

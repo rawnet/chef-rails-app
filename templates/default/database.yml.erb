@@ -2,8 +2,8 @@
 # Instead consider amending the chef recipe and re-deploying with Knife Solo
 
 <%= @environment %>:
-  adapter: <%= @database['adapter'] || "mysql2" %>
-  host: <%= @database['host'] || "127.0.0.1" %>
+  adapter: <%= @database['adapter'] || 'mysql2' %>
+  host: <%= @database['host'] || '127.0.0.1' %>
   port: <%= @database['port'] || 3306 %>
   username: <%= @database['user'] %>
   password: '<%= @database['password'] %>'
