@@ -8,6 +8,4 @@
   username: <%= @database['user'] %>
   password: '<%= @database['password'] %>'
   database: <%= @database['database'] || "#{app_name}_#{environment}" %>
-  <% if @database['encoding'] %>
-  encoding: utf8
-  <% end %>
+  encoding: <%= @database['encoding'] || 'utf8' %>
