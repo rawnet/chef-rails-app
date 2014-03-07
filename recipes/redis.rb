@@ -1,3 +1,5 @@
+include_recipe "rails-app::files"
+
 rails_apps = node['rails_app']['apps']
 admin_user = node['rails_app']['admin_user']
 rails_user = node['rails_app']['rails_user']
