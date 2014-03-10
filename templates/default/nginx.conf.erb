@@ -6,8 +6,13 @@ upstream <%= @app_name %>_<%= @environment %>_unicorn {
 }
 
 server  {
-  listen 80<%= " default_server" if @config['default_vhost'] %>;
-  server_name <%= @domains.join(" ") %>;
+  listen 80<%= ' default_server' if @config['default_vhost'] %>;
+  <% if @config['ssl'] %>
+  listen 443 ssl;
+  ssl_certificate <%= @config['ssl']['certificate_path'] %>;
+  ssl_certificate_key <%= @config['ssl']['certificate_key_path'] %>;
+  <% end %>
+  server_name <%= @domains.join(' ') %>;
 
   root <%= @environment_root %>/current/public;
 	
@@ -40,9 +45,11 @@ server  {
     proxy_set_header X-Forwarded-Proto $lb_scheme;
     <% else %>		
     proxy_set_header X-Forwarded-Proto $scheme;
-		<% end %>
-	<% end %>
-		
+    <% end %>
+  <% elsif @config['ssl'] %>
+    proxy_set_header X-Forwarded-Proto $scheme;
+  <% end %>
+
     proxy_redirect off;
 
     <% if @config["proxy_timeout"] %>
