@@ -41,6 +41,7 @@
   <cores adminPath="/admin/cores">
     <% @rails_apps.each_pair do |app_name, app_config| %>
       <% app_config['environments'].each do |environment| %>
+        <% environment, node_config = environment.first if environment.is_a?(Hash) %>
         <% solr_dir = File.join('/', 'home', @rails_user, 'apps', app_name, environment, 'shared', 'solr') %>
         <core name="<%= app_name %>_<%= environment %>" instanceDir="<%= solr_dir %>/config" dataDir="<%= solr_dir %>/data" />
       <% end %>
