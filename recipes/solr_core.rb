@@ -6,6 +6,8 @@ rails_apps.each_pair do |app_name, app_config|
   app_root = File.join('/', 'home', rails_user, 'apps', app_name)
 
   app_config['environments'].each do |environment|
+    
+    environment, node_config = environment.first if environment.is_a?(Hash)
     shared_dir = File.join(app_root, environment, 'shared')
 
     directory File.join(shared_dir, 'solr') do
