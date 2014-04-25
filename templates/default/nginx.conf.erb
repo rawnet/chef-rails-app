@@ -6,10 +6,13 @@ upstream <%= @app_name %>_<%= @environment %>_unicorn {
 }
 
 server  {
+
+  <% unless @config['disable_http'] %>
   listen 80<%= ' default_server' if @config['default_vhost'] %>;
+  <% end %>
 
   <% if @config['ssl'] %>
-  listen 443 ssl;
+  listen 443 ssl<%= ' default_server' if @config['disable_http'] && @config['default_vhost'] %>;
   ssl_certificate <%= @config['ssl']['certificate_path'] %>;
   ssl_certificate_key <%= @config['ssl']['certificate_key_path'] %>;
   <% end %>
