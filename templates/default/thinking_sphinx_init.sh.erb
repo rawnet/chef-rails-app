@@ -21,27 +21,27 @@ cd $APP_ROOT || exit 1
 case "$1" in
   start)    
     echo "Starting Thinking Sphinx"
-    su -l $USER -c 'cd <%= @environment_root %>/current && <%= source_rbenv %> RAILS_ENV=<%= @environment %> bundle exec rake thinking_sphinx:start'
+    su -l $USER -c 'cd <%= @environment_root %>/current && <%= source_rbenv %> RAILS_ENV=<%= @environment %> bundle exec rake ts:start'
     echo
     ;;
   stop)
     echo "Stopping Thinking Sphinx"
-    su -l $USER -c 'cd <%= @environment_root %>/current && <%= source_rbenv %> RAILS_ENV=<%= @environment %> bundle exec rake thinking_sphinx:stop'
+    su -l $USER -c 'cd <%= @environment_root %>/current && <%= source_rbenv %> RAILS_ENV=<%= @environment %> bundle exec rake ts:stop'
     echo
     ;;
   rebuild)
     echo "re-Building (Stop/Index/Start) Thinking Sphinx"
-    su -l $USER -c 'cd <%= @environment_root %>/current && <%= source_rbenv %> RAILS_ENV=<%= @environment %> bundle exec rake thinking_sphinx:rebuild'
+    su -l $USER -c 'cd <%= @environment_root %>/current && <%= source_rbenv %> RAILS_ENV=<%= @environment %> bundle exec rake ts:rebuild'
     echo
     ;;
   restart)
     echo "re-Starting Thinking Sphinx"
-    su -l $USER -c 'cd <%= @environment_root %>/current && <%= source_rbenv %> RAILS_ENV=<%= @environment %> bundle exec rake thinking_sphinx:restart'
+    su -l $USER -c 'cd <%= @environment_root %>/current && <%= source_rbenv %> RAILS_ENV=<%= @environment %> bundle exec rake ts:restart'
     echo
     ;;
   delayed_delta)
     echo "Process stored delta index requests"
-    su -l $USER -c 'cd <%= @environment_root %>/current && <%= source_rbenv %> RAILS_ENV=<%= @environment %> bundle exec rake thinking_sphinx:delayed_delta'
+    su -l $USER -c 'cd <%= @environment_root %>/current && <%= source_rbenv %> RAILS_ENV=<%= @environment %> bundle exec rake ts:delayed_delta'
     echo
     ;;
   *)
