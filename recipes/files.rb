@@ -28,15 +28,17 @@ node_root['apps'].each do |name, app_config|
 
     config_dir = File.join(environment_root, 'shared', 'config')
 
-    database_config = environment_config['database'].merge(password: data_bag[environment]['database_password'])
+    unless app_config['skip_database']
+      database_config = environment_config['database'].merge(password: data_bag[environment]['database_password'])
 
-    # database.yml
-    template File.join(config_dir, 'database.yml') do
-      source 'database.yml.erb'
-      owner app_user
-      group app_user
-      mode 00755
-      variables(app_name: name, environment: environment, database: database_config)
+      # database.yml
+      template File.join(config_dir, 'database.yml') do
+        source 'database.yml.erb'
+        owner app_user
+        group app_user
+        mode 00755
+        variables(app_name: name, environment: environment, database: database_config)
+      end
     end
 
     # logrotate
