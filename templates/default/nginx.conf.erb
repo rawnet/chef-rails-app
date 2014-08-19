@@ -23,8 +23,9 @@ server  {
 	<% end %>
 
   <% if @config['remove_www'] %>
-  if ($host ~* ^www\.){
-    rewrite ^(.*)$ $scheme://$host$1;
+  if ($host ~* "^www\.(.+)$"){
+    set $domain_without_www $1;
+    rewrite ^(.*)$ $scheme://$domain_without_www$1;
   }
   <% end %>
 
