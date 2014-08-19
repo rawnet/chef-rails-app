@@ -22,7 +22,7 @@ server  {
 	}
 	<% end %>
 
-  <% if @config['force_non_www'] %>
+  <% if @config['remove_www'] %>
   if ($host ~* ^www\.){
     rewrite ^(.*)$ $scheme://$host$1;
   }
