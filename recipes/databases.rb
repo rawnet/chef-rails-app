@@ -10,6 +10,7 @@ node_root['apps'].each do |name, app_config|
 
     mysql_database db_config['database'] do
       connection node_root['mysql']
+      encoding 'utf8'
       action :create
     end
 
