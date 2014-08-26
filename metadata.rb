@@ -4,7 +4,7 @@ maintainer_email 'tbeynon@rawnet.com'
 license          'All rights reserved'
 description      'Creates Rails application files'
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
-version          '1.0.8'
+version          '1.0.9'
 depends          "build-essential"
 depends          "mysql"
 depends          "database"
