@@ -33,7 +33,7 @@ apps_with_solr.each do |name, app_config|
       owner app_user
       group app_user
       mode 00755
-      variables(environment: environment, port: node['jetty']['port'], path: "#{name}_#{environment}")
+      variables(environment: environment, port: node['jetty']['port'], path: "/solr/#{name}_#{environment}")
     end
   end
 end
