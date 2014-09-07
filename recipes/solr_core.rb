@@ -27,6 +27,18 @@ apps_with_solr.each do |name, app_config|
       group jetty_user
       source 'solr_config'
     end
+
+    template File.join(shared_dir, 'config', 'sunspot.yml') do
+      source 'sunspot.yml.erb'
+      owner app_user
+      group app_user
+      mode 00755
+      variables(environment: environment, port: node['jetty']['port'], path: "#{name}_#{environment}")
+
+      if File.directory? File.join(environment_root, 'current')
+        notifies :restart, "service[#{name}_#{environment}_unicorn]", :delayed
+      end
+    end
   end
 end
 
