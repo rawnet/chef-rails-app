@@ -34,10 +34,6 @@ apps_with_solr.each do |name, app_config|
       group app_user
       mode 00755
       variables(environment: environment, port: node['jetty']['port'], path: "#{name}_#{environment}")
-
-      if File.directory? File.join(environment_root, 'current')
-        notifies :restart, "service[#{name}_#{environment}_unicorn]", :delayed
-      end
     end
   end
 end
