@@ -14,7 +14,14 @@ node_root['apps'].each do |name, config|
       owner app_user
       group app_user
       mode 00755
-      notifies :restart, "service[#{name}_#{environment}_unicorn]", :delayed
+
+      if node.run_list.include? "recipe[rails-app::web_server]"
+        notifies :restart, "service[#{name}_#{environment}_unicorn]", :delayed
+      end
+
+      if node.run_list.include? "recipe[rails-app::resque]"
+        notifies :restart, "service[#{name}_#{environment}_resque]", :delayed
+      end
     end
   end
 end
