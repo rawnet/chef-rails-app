@@ -2,7 +2,8 @@ daemonize yes
 bind 0.0.0.0
 port <%= @port %>
 logfile <%= @environment_root %>/shared/log/redis.log
-dbfilename <%= @environment_root %>/shared/<%= @environment %>.rdb
+dbfilename <%= @environment %>.rdb
+dir <%= @environment_root %>/shared/
 pidfile <%= @environment_root %>/shared/pids/redis.pid
 <% if @password %>
 requirepass <%= @password %>
