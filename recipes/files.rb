@@ -41,6 +41,16 @@ node_root['apps'].each do |name, app_config|
       end
     end
 
+    if environment_config['redis']
+      template File.join(config_dir, 'redis.yml') do
+        source 'redis.yml.erb'
+        owner app_user
+        group app_user
+        mode 00755
+        variables(environment: environment, config: environment_config['redis'])
+      end
+    end
+
     # logrotate
     template File.join('/', 'etc', 'logrotate.d', "#{name}_#{environment}") do
       source 'logrotate.conf.erb'
