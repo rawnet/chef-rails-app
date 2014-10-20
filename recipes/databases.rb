@@ -10,7 +10,12 @@ node_root['apps'].each do |name, app_config|
 
     mysql_database db_config['database'] do
       connection node_root['mysql']
-      encoding 'utf8'
+      encoding db_config['encoding'] || 'utf8'
+
+      if db_config['collation']
+        collation db_config['collation']
+      end
+
       action :create
     end
 

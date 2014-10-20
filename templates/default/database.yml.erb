@@ -9,3 +9,6 @@
   password: '<%= @database['password'] %>'
   database: <%= @database['database'] || "#{app_name}_#{environment}" %>
   encoding: <%= @database['encoding'] || 'utf8' %>
+  <% if @database['collation'] %>
+  collation: <%= @database['collation'] %>
+  <% end %>
