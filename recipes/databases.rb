@@ -12,7 +12,7 @@ node_root['apps'].each do |name, app_config|
     db_connection = node_root[rdbms]
 
     case rdbms
-    when 'mysql'
+    when 'mysql', 'mysql2'
       db_provider   = Chef::Provider::Database::Mysql
       user_provider = Chef::Provider::Database::MysqlUser
     when 'postgresql'
