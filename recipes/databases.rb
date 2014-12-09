@@ -7,11 +7,11 @@ node_root['apps'].each do |name, app_config|
   data_bag = data_bag_item('rails_app', name)
 
   app_config['environments'].each do |environment|
-    db_config     = app_config['environment_config'][environment]['database']
-    db_connection = node_root[rdbms]
-    adapter       = db_config['adapter']
+    db_config = app_config['environment_config'][environment]['database']
+    adapter = db_config['adapter']
 
     rdbms = (adapter == 'mysql2' ? 'mysql' : adapter)
+    db_connection = node_root[rdbms]
 
     case rdbms
     when 'mysql'
