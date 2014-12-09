@@ -1,7 +1,18 @@
-include_recipe 'database::mysql'
-include_recipe 'database::postgresql'
-
 node_root = node['rails_app']
+
+include_recipe 'database::mysql'
+
+def has_app_using_postgres?
+  node_root['apps'].any? do |_, app_config|
+    app_config['environment_config'].any? do |_, env_config|
+      env_config['database']['adapter'] == 'postgresql'
+    end
+  end
+end
+
+if has_app_using_postgres?
+  include_recipe 'database::postgresql'
+end
 
 node_root['apps'].each do |name, app_config|
   data_bag = data_bag_item('rails_app', name)
