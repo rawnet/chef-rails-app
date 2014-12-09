@@ -8,11 +8,13 @@ node_root['apps'].each do |name, app_config|
 
   app_config['environments'].each do |environment|
     db_config     = app_config['environment_config'][environment]['database']
-    rdbms         = db_config['adapter']
     db_connection = node_root[rdbms]
+    adapter       = db_config['adapter']
+
+    rdbms = (adapter == 'mysql2' ? 'mysql' : adapter)
 
     case rdbms
-    when 'mysql', 'mysql2'
+    when 'mysql'
       db_provider   = Chef::Provider::Database::Mysql
       user_provider = Chef::Provider::Database::MysqlUser
     when 'postgresql'
