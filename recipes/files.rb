@@ -54,8 +54,8 @@ node_root['apps'].each do |name, app_config|
     # logrotate
     template File.join('/', 'etc', 'logrotate.d', "#{name}_#{environment}") do
       source 'logrotate.conf.erb'
-      owner admin_user
-      group admin_user
+      owner 'root'
+      group 'root'
       mode 00644
       variables(environment_root: environment_root)
     end
