@@ -27,7 +27,8 @@ rails_apps.each_pair do |app_name, app_config|
                   "environment_root" => environment_root,
                   "app_name"         => app_name,
                   "environment"      => environment,
-                  "config"           => config
+                  "config"           => config,
+                  "monit_email"      => node["monit"]["notify_email"]
                 })
 
       notifies :restart, "service[monit]", :delayed

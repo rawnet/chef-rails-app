@@ -17,5 +17,8 @@ check process <%= @app_name %>_<%= @environment %>_unicorn_worker_<%= i %> with 
   stop program = "/etc/init.d/<%= @app_name %>_<%= @environment %>_unicorn kill_worker <%= i %>"
   if mem is greater than 350.0 MB for 2 cycles then restart
   if cpu is greater than 50% for 2 cycles then restart
+  <% if @monit_email.present? %>
+  noalert <%= @monit_email %>
+  <% end %>
 
 <% end %>
